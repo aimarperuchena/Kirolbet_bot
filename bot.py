@@ -2,13 +2,11 @@
 import urllib.request
 import pymysql
 import urlopen
-import request
 import time
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 import datetime
 
-from bs4 import BeautifulSoup
 
 import requests
 import pymysql.cursors
@@ -46,7 +44,7 @@ def selectMarket(market, sport):
     try:
         with connection.cursor() as cursor:
             # Read a single record
-            sql = "SELECT `*` FROM `market` WHERE `sport`=%s AND `des`=%s"
+            sql = "SELECT `id` FROM `market` WHERE `sport`=%s AND `des`=%s"
             cursor.execute(sql, (sport, market))
             result = cursor.fetchone()
             if result == None:
@@ -75,8 +73,10 @@ def insertGame(sport, league, game, date, times):
             # your changes.
             connection.commit()
             row_id = cursor.lastrowid
-    except Exception as e:
-        print("Exeception occured:{}".format(e))
+
+    except ValueError as e:
+        print('Value error')
+
     finally:
         connection.close()
         return row_id
@@ -92,7 +92,7 @@ def selectGame(sport, league, game, date, times):
         with connection.cursor() as cursor:
 
             # Read a single record
-            sql = "SELECT `*` FROM `game` WHERE `sport`=%s AND `date`=%s AND `time`=%s AND `league`=%s AND `game`=%s"
+            sql = "SELECT `id` FROM `game` WHERE `sport`=%s AND `date`=%s AND `time`=%s AND `league`=%s AND `game`=%s"
             cursor.execute(sql, (sport, date, times, league, game))
             result = cursor.fetchone()
             if result == None:
@@ -121,8 +121,9 @@ def insertGameBet(game_id, market_id):
             # your changes.
             connection.commit()
             row_id = cursor.lastrowid
-    except Exception as e:
-        print("Exeception occured:{}".format(e))
+    except ValueError as e:
+        print('Value error')
+
     finally:
         connection.close()
         return row_id
@@ -138,7 +139,7 @@ def selectGameBet(game_id, market_id):
         with connection.cursor() as cursor:
 
             # Read a single record
-            sql = "SELECT `*` FROM `game_bet` WHERE `game_id`=%s AND `market_id`=%s "
+            sql = "SELECT `id` FROM `game_bet` WHERE `game_id`=%s AND `market_id`=%s "
             cursor.execute(sql, (game_id, market_id))
             result = cursor.fetchone()
             if result == None:
@@ -166,9 +167,9 @@ def insertOdd(game_bet_id, des, odd):
             # connection is not autocommit by default. So you must commit to save
             # your changes.
             connection.commit()
-            
-    except Exception as e:
-        print("Exeception occured:{}".format(e))
+    except ValueError as e:
+        print('Value error')
+
     finally:
         connection.close()
         return row_id
@@ -178,20 +179,21 @@ def selectOdd(game_bet_id, des, odd):
     connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
                                  db=dbName
                                  )
-    
+
     try:
 
         with connection.cursor() as cursor:
 
             # Read a single record
-            sql = "SELECT `*` FROM `odds` WHERE `game_bet_id`=%s AND `des`=%s  ORDER BY `created_at` DESC "
+            sql = "SELECT `id`, `odd` FROM `odds` WHERE `game_bet_id`=%s AND `des`=%s  ORDER BY `created_at` DESC "
             cursor.execute(sql, (game_bet_id, des))
             result = cursor.fetchone()
             if result == None:
                 insertOdd(game_bet_id, des, odd)
 
             else:
-                print('ODD FOUND')
+                if float(result[1]) != float(odd):
+                    insertOdd(game_bet_id, des, odd)
 
     finally:
         connection.close()
@@ -203,7 +205,7 @@ def extractMatchList(link):
     reg_url = link
     req = Request(url=reg_url, headers=headers)
     html = urlopen(req).read()
-    soup2 = BeautifulSoup(html)
+    soup2 = BeautifulSoup(html,  "html.parser")
     games = soup2.findAll("li", {"class": "filtroCategoria"})
     for game in games:
         game_info = game.find("div", {"class": "infoEve"})
@@ -236,7 +238,7 @@ def extractMarkets(link):
     reg_url = link
     req = Request(url=reg_url, headers=headers)
     html = urlopen(req).read()
-    soup2 = BeautifulSoup(html)
+    soup2 = BeautifulSoup(html, "html.parser")
 
     date_time = ''
     date = ''
@@ -299,7 +301,7 @@ def extractMarkets(link):
 def extractLeagues():
     with open('ligas.html', 'r') as f:
         contents = f.read()
-        soup = BeautifulSoup(contents, 'html')
+        soup = BeautifulSoup(contents,  "html.parser")
         general_ul = soup.find("ul", {"class": "ksAccordion-toggle"})
         li_array = general_ul.findAll("li")
 
@@ -311,6 +313,10 @@ def extractLeagues():
             extractMatchList(link)
 
 
-extractLeagues()
+a = 1
+while a == 1:
+    print('new scann')
+    extractLeagues()
+    time.sleep(300)
 ''' extractMarkets("https://euskadi.kirolbet.es/esp/Sport/Evento/2148667")
  '''
