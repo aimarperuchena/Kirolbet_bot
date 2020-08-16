@@ -46,10 +46,9 @@ pycparser==2.19
 PyGetWindow==0.0.7
 PyMsgBox==1.0.7
 PyMySQL==0.9.3
-unixodbc
-unixodbc-dev
+
 python-pyodbc
-libsqliteodbc
+
 pyparsing==2.4.2
 pyperclip==1.7.0
 PyRect==0.1.4
