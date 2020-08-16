@@ -33,7 +33,6 @@ CREATE TABLE `odds` (
   `des` varchar(200) DEFAULT NULL,
   `odd` double DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `game_bet_id_fk_idx` (`game_bet_id`),
   CONSTRAINT `game_bet_id_fk` FOREIGN KEY (`game_bet_id`) REFERENCES `game_bet` (`id`)
