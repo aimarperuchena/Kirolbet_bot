@@ -6,7 +6,7 @@ import time
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 import datetime
-
+import sys
 
 import requests
 import pymysql.cursors
@@ -316,6 +316,7 @@ def extractLeagues():
 a = 1
 while a == 1:
     print('new scann')
+    sys.stdout.flush()
     extractLeagues()
     time.sleep(900)
 ''' extractMarkets("https://euskadi.kirolbet.es/esp/Sport/Evento/2148667")
