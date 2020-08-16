@@ -47,7 +47,7 @@ PyGetWindow==0.0.7
 PyMsgBox==1.0.7
 PyMySQL==0.9.3
 
-python-pyodbc
+pyodbc==4.0.30
 
 pyparsing==2.4.2
 pyperclip==1.7.0
