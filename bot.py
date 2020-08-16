@@ -317,6 +317,6 @@ a = 1
 while a == 1:
     print('new scann')
     extractLeagues()
-    time.sleep(300)
+    time.sleep(900)
 ''' extractMarkets("https://euskadi.kirolbet.es/esp/Sport/Evento/2148667")
  '''
