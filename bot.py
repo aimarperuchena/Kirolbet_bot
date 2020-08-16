@@ -10,10 +10,10 @@ import datetime
 
 import requests
 import pymysql.cursors
-dbServerName = "localhost"
-dbUser = "root"
-dbPassword = "MHSUy-{0iyX5H4SJPQd"
-dbName = "kirolbet_db"
+dbServerName = "eu-cdbr-west-03.cleardb.net"
+dbUser = "b8d4fca1ccbc77"
+dbPassword = "12b4db8a"
+dbName = "heroku_00314a5bc5749e7"
 
 
 def insertMarket(market, sport):
