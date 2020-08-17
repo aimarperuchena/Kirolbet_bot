@@ -1,10 +1,12 @@
 
 
-import pymysql
-import urlopen
-import time
+import mysql.connector
+
+import time 
+
 from bs4 import BeautifulSoup
-from urllib import request
+from urllib.request import Request
+from urllib.request import urlopen
 import datetime
 import sys
 
@@ -12,28 +14,36 @@ import requests
 import pymysql.cursors
 dbServerName = "us-cdbr-east-02.cleardb.com"
 dbUser = "b2070edf1025c4"
-dbPassword = "ad65023d"
+dbPassword = "ad65023d" 
 dbName = "heroku_148a4f741dd1947"
 
 
 def insertMarket(market, sport):
-    connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
-                                 db=dbName)
-    row_id = ''
-    try:
-        with connection.cursor() as cursor:
-            # Create a new record
-            sql = "INSERT INTO `market` (`sport`, `des`) VALUES (%s, %s)"
-            cursor.execute(sql, (sport, market))
+    """  mydb = mysql.connector.connect(
+        host=dbServerName, user=dbUser, password=dbPassword,
+        db=dbName
+    )
 
-            # connection is not autocommit by default. So you must commit to save
-            # your changes.
-            connection.commit()
-            row_id = cursor.lastrowid
+    mycursor = mydb.cursor()
 
-    finally:
-        connection.close()
-        return row_id
+    ''' Create a new record'''
+    sql = "INSERT INTO `market` (`sport`, `des`) VALUES (%s, %s)"
+    mycursor.execute(sql, (sport, market)
+    a=mycursor.lastrowid """
+    mydb = mysql.connector.connect(
+        host=dbServerName, user=dbUser, password=dbPassword,
+        db=dbName
+    )
+
+    mycursor = mydb.cursor()
+
+    sql = "INSERT INTO `market` (`sport`, `des`) VALUES (%s, %s)"
+
+    mycursor.execute(sql,  (sport, market))
+
+    mydb.commit()
+    row_id = mycursor.lastrowid
+    return row_id
 
 
 def selectMarket(market, sport):
