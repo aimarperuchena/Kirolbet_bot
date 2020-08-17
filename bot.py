@@ -365,6 +365,7 @@ def extractMatchList(link):
     html = urlopen(req,context=context).read() """
     print('GAMEEEEEEEEEEEEE')
     try:
+        print('MATCH: '+link)
         html = requests.get(link)
 
         soup2 = BeautifulSoup(html.content,  "html.parser")
