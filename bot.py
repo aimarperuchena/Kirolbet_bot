@@ -50,7 +50,7 @@ def insertMarket(market, sport):
         row_id = mycursor.lastrowid
         return row_id
     except Exception as e: 
-        sys.stdout.flush()
+        
         print(e)
 
 
@@ -93,7 +93,7 @@ def selectMarket(market, sport):
             market_id = result[0]
         return market_id
     except Exception as e:
-        sys.stdout.flush()
+        
         print(e)
 
 
@@ -136,7 +136,7 @@ def insertGame(sport, league, game, date, times):
         row_id = mycursor.lastrowid
         return row_id
     except Exception as e: 
-        sys.stdout.flush()
+        
         print(e)
 
 
@@ -181,7 +181,7 @@ def selectGame(sport, league, game, date, times):
             game_id = result[0]
         return game_id
     except Exception as e:
-        sys.stdout.flush()
+        
         print(e)
 
 def insertGameBet(game_id, market_id):
@@ -220,7 +220,7 @@ def insertGameBet(game_id, market_id):
         row_id = mycursor.lastrowid
         return row_id
     except Exception as e: 
-        sys.stdout.flush()
+        
         print(e)
 
 def selectGameBet(game_id, market_id):
@@ -264,7 +264,7 @@ def selectGameBet(game_id, market_id):
             game_bet_id = result[0]
         return game_bet_id
     except Exception as e: 
-        sys.stdout.flush()
+        
         print(e)
 
 def insertOdd(game_bet_id, des, odd):
@@ -303,7 +303,7 @@ def insertOdd(game_bet_id, des, odd):
         row_id = mycursor.lastrowid
         return row_id
     except Exception as e: 
-        sys.stdout.flush()
+        
         print(e)
 
 def selectOdd(game_bet_id, des, odd):
@@ -346,7 +346,7 @@ def selectOdd(game_bet_id, des, odd):
             if float(result[1]) != float(odd):
                 insertOdd(game_bet_id, des, odd)
     except Exception as e: 
-        sys.stdout.flush()
+        
         print(e)
 
 def extractMatchList(link):
@@ -392,7 +392,7 @@ def extractMatchList(link):
             extractMarkets(link)
             time.sleep(0.1)
     except Exception as e: 
-        sys.stdout.flush()
+       
         print(e)
 
 
@@ -445,7 +445,7 @@ def extractMarkets(link):
 
         '''SELECT GAME DB'''
         print(game)
-        sys.stdout.flush()
+        
         game_id = selectGame(sport, league, game, date, times)
         '''MARKETS'''
         next_markets = soup2.find("div", {"class": "prox_eventos"})
@@ -473,7 +473,7 @@ def extractMarkets(link):
                 odd = coef.text.replace(",", ".")
                 selectOdd(game_bet_id, des, odd)
     except Exception as e: 
-        sys.stdout.flush()
+        
         print(e)
 
 def extractLeagues():
@@ -493,9 +493,13 @@ def extractLeagues():
 
 a = 1
 while a == 1:
-    print('new scann')
-    sys.stdout.flush()
-    extractLeagues()
-    time.sleep(900)
+    try: 
+        print('new scann')
+        
+        extractLeagues()
+        time.sleep(900)
+    except Exception as e: 
+        
+        print(e)
 ''' extractMarkets("https://euskadi.kirolbet.es/esp/Sport/Evento/2148667")
  '''
