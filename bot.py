@@ -445,6 +445,7 @@ def extractMarkets(link):
 
         '''SELECT GAME DB'''
         print(game)
+        sys.stdout.flush()
         game_id = selectGame(sport, league, game, date, times)
         '''MARKETS'''
         next_markets = soup2.find("div", {"class": "prox_eventos"})
