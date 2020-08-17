@@ -327,8 +327,8 @@ def extractMatchList(link):
     headers={'User-Agent':user_agent,} 
     reg_url = link
     context = ssl._create_unverified_context()
-    req = Request(url=reg_url, headers={'User-Agent': 'Mozilla/5.0'})
-    html = urlopen(req,context=context).read()
+    req = Request(url=reg_url, headers={'User-Agent': 'XYZ/3.0'})
+    html = urlopen(req,context=context, timeout=20).read()
     soup2 = BeautifulSoup(html,  "html.parser")
     games = soup2.findAll("li", {"class": "filtroCategoria"})
     for game in games:
@@ -361,8 +361,8 @@ def extractMarkets(link):
     headers={'User-Agent':user_agent,} 
     reg_url = link
     context = ssl._create_unverified_context()
-    req = Request(url=reg_url, headers={'User-Agent': 'Mozilla/5.0'})
-    html = urlopen(req,context=context).read()
+    req = Request(url=reg_url, headers={'User-Agent': 'XYZ/3.0'})
+    html = urlopen(req,context=context,timeout=20).read()
     soup2 = BeautifulSoup(html, "html.parser")
 
     date_time = ''
