@@ -11,6 +11,10 @@ import datetime
 import sys
 
 import requests
+import ssl
+
+# This restores the same behavior as before.
+
 
 dbServerName = "us-cdbr-east-02.cleardb.com"
 dbUser = "b2070edf1025c4"
@@ -322,8 +326,9 @@ def extractMatchList(link):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}
     reg_url = link
+    context = ssl._create_unverified_context()
     req = Request(url=reg_url, headers=headers)
-    html = urlopen(req).read()
+    html = urlopen(req,context=context).read()
     soup2 = BeautifulSoup(html,  "html.parser")
     games = soup2.findAll("li", {"class": "filtroCategoria"})
     for game in games:
@@ -355,8 +360,9 @@ def extractMarkets(link):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}
     reg_url = link
+    context = ssl._create_unverified_context()
     req = Request(url=reg_url, headers=headers)
-    html = urlopen(req).read()
+    html = urlopen(req,context=context).read()
     soup2 = BeautifulSoup(html, "html.parser")
 
     date_time = ''
