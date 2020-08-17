@@ -337,7 +337,7 @@ def extractMatchList(link):
     req = Request(url=reg_url, headers=agent)
     html = urlopen(req,context=context).read() """
     html = requests.get(link)
-    print(html.content)
+    
     soup2 = BeautifulSoup(html.content,  "html.parser")
     games = soup2.findAll("li", {"class": "filtroCategoria"})
     for game in games:
