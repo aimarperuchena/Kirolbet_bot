@@ -363,6 +363,7 @@ def extractMatchList(link):
     context = ssl._create_unverified_context()
     req = Request(url=reg_url, headers=agent)
     html = urlopen(req,context=context).read() """
+    print('GAMEEEEEEEEEEEEE')
     try:
         html = requests.get(link)
 
@@ -411,6 +412,7 @@ def extractMarkets(link):
         context = ssl._create_unverified_context()
         req = Request(url=reg_url, headers=agent)
         html = urlopen(req,context=context).read() """
+        print('MARKETSSSSSSSSSS')
         html=requests.get(link)
         soup2 = BeautifulSoup(html.content, "html.parser")
 
