@@ -49,7 +49,9 @@ def insertMarket(market, sport):
         mydb.commit()
         row_id = mycursor.lastrowid
         return row_id
-    except Exception as e: print(e)
+    except Exception as e: 
+        sys.stdout.flush()
+        print(e)
 
 
 def selectMarket(market, sport):
@@ -90,7 +92,9 @@ def selectMarket(market, sport):
         else:
             market_id = result[0]
         return market_id
-    except Exception as e: print(e)
+    except Exception as e:
+        sys.stdout.flush()
+        print(e)
 
 
 def insertGame(sport, league, game, date, times):
@@ -131,7 +135,9 @@ def insertGame(sport, league, game, date, times):
         mydb.commit()
         row_id = mycursor.lastrowid
         return row_id
-    except Exception as e: print(e)
+    except Exception as e: 
+        sys.stdout.flush()
+        print(e)
 
 
 def selectGame(sport, league, game, date, times):
@@ -174,7 +180,9 @@ def selectGame(sport, league, game, date, times):
         else:
             game_id = result[0]
         return game_id
-    except Exception as e: print(e)
+    except Exception as e:
+        sys.stdout.flush()
+        print(e)
 
 def insertGameBet(game_id, market_id):
     """ connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
@@ -211,7 +219,9 @@ def insertGameBet(game_id, market_id):
         mydb.commit()
         row_id = mycursor.lastrowid
         return row_id
-    except Exception as e: print(e)
+    except Exception as e: 
+        sys.stdout.flush()
+        print(e)
 
 def selectGameBet(game_id, market_id):
     """ connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
@@ -253,7 +263,9 @@ def selectGameBet(game_id, market_id):
         else:
             game_bet_id = result[0]
         return game_bet_id
-    except Exception as e: print(e)
+    except Exception as e: 
+        sys.stdout.flush()
+        print(e)
 
 def insertOdd(game_bet_id, des, odd):
     
@@ -290,7 +302,9 @@ def insertOdd(game_bet_id, des, odd):
         mydb.commit()
         row_id = mycursor.lastrowid
         return row_id
-    except Exception as e: print(e)
+    except Exception as e: 
+        sys.stdout.flush()
+        print(e)
 
 def selectOdd(game_bet_id, des, odd):
     """ connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
@@ -331,7 +345,9 @@ def selectOdd(game_bet_id, des, odd):
         else:
             if float(result[1]) != float(odd):
                 insertOdd(game_bet_id, des, odd)
-    except Exception as e: print(e)
+    except Exception as e: 
+        sys.stdout.flush()
+        print(e)
 
 def extractMatchList(link):
     """   agent={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) ' 
@@ -375,7 +391,9 @@ def extractMatchList(link):
             link = 'https://euskadi.kirolbet.es'+game_link
             extractMarkets(link)
             time.sleep(0.1)
-    except Exception as e: print(e)
+    except Exception as e: 
+        sys.stdout.flush()
+        print(e)
 
 
 def extractMarkets(link):
@@ -452,7 +470,9 @@ def extractMarkets(link):
                 coef = odd_a.find("span", {"class": "coef"})
                 odd = coef.text.replace(",", ".")
                 selectOdd(game_bet_id, des, odd)
-    except Exception as e: print(e)
+    except Exception as e: 
+        sys.stdout.flush()
+        print(e)
 
 def extractLeagues():
     with open('ligas.html', 'r') as f:
