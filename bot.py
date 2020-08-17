@@ -390,6 +390,7 @@ def extractMatchList(link):
 
             '''GAME LINK'''
             game_link = game_a['href']
+            print(game_link)
             link = 'https://euskadi.kirolbet.es'+game_link
             extractMarkets(link)
             time.sleep(0.1)
