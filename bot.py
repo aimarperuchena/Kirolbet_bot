@@ -323,7 +323,7 @@ def selectOdd(game_bet_id, des, odd):
 
 
 def extractMatchList(link):
-    agent={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) ' 
+    """   agent={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) ' 
                       'AppleWebKit/537.11 (KHTML, like Gecko) '
                       'Chrome/23.0.1271.64 Safari/537.11',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -335,8 +335,10 @@ def extractMatchList(link):
     reg_url = link
     context = ssl._create_unverified_context()
     req = Request(url=reg_url, headers=agent)
-    html = urlopen(req,context=context).read()
-    soup2 = BeautifulSoup(html,  "html.parser")
+    html = urlopen(req,context=context).read() """
+    html = requests.get(link)
+    print(html.content)
+    soup2 = BeautifulSoup(html.content,  "html.parser")
     games = soup2.findAll("li", {"class": "filtroCategoria"})
     for game in games:
         game_info = game.find("div", {"class": "infoEve"})
@@ -364,7 +366,7 @@ def extractMatchList(link):
 
 
 def extractMarkets(link):
-    agent={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) ' 
+    """ agent={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) ' 
                       'AppleWebKit/537.11 (KHTML, like Gecko) '
                       'Chrome/23.0.1271.64 Safari/537.11',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
@@ -376,8 +378,9 @@ def extractMarkets(link):
     reg_url = link
     context = ssl._create_unverified_context()
     req = Request(url=reg_url, headers=agent)
-    html = urlopen(req,context=context).read()
-    soup2 = BeautifulSoup(html, "html.parser")
+    html = urlopen(req,context=context).read() """
+    html=requests.get(link)
+    soup2 = BeautifulSoup(html.content, "html.parser")
 
     date_time = ''
     date = ''
