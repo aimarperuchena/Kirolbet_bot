@@ -444,6 +444,7 @@ def extractMarkets(link):
         league = lis_breadcrumb[2].text
 
         '''SELECT GAME DB'''
+        print(game)
         game_id = selectGame(sport, league, game, date, times)
         '''MARKETS'''
         next_markets = soup2.find("div", {"class": "prox_eventos"})
