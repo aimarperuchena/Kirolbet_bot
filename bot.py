@@ -2,7 +2,7 @@
 
 import mysql.connector
 
-import time 
+import time
 
 from bs4 import BeautifulSoup
 from urllib.request import Request
@@ -11,10 +11,10 @@ import datetime
 import sys
 
 import requests
-import pymysql.cursors
+
 dbServerName = "us-cdbr-east-02.cleardb.com"
 dbUser = "b2070edf1025c4"
-dbPassword = "ad65023d" 
+dbPassword = "ad65023d"
 dbName = "heroku_148a4f741dd1947"
 
 
@@ -48,7 +48,7 @@ def insertMarket(market, sport):
 
 def selectMarket(market, sport):
     market_id = ''
-    connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+    """  connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
                                  db=dbName
                                  )
     try:
@@ -65,11 +65,29 @@ def selectMarket(market, sport):
 
     finally:
         connection.close()
-        return market_id
+        return market_id """
+    mydb = mysql.connector.connect(
+        host=dbServerName, user=dbUser, password=dbPassword,
+        db=dbName
+    )
+
+    mycursor = mydb.cursor()
+
+    sql = "SELECT `id` FROM `market` WHERE `sport`=%s AND `des`=%s"
+    mycursor.execute(sql, (sport, market))
+
+    result = mycursor.fetchone()
+    if result == None:
+
+        market_id = insertMarket(market, sport)
+    else:
+        market_id = result[0]
+    return market_id
 
 
 def insertGame(sport, league, game, date, times):
-    connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+    row_id = ''
+    """ connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
                                  db=dbName)
     row_id = ''
 
@@ -90,10 +108,25 @@ def insertGame(sport, league, game, date, times):
     finally:
         connection.close()
         return row_id
+ """
+    mydb = mysql.connector.connect(
+        host=dbServerName, user=dbUser, password=dbPassword,
+        db=dbName
+    )
+
+    mycursor = mydb.cursor()
+
+    sql = "INSERT INTO `game` (`game`, `date`, `time`,`sport`,`league`) VALUES (%s, %s,%s,%s,%s)"
+    mycursor.execute(sql, (game, date, times, sport, league))
+
+    mydb.commit()
+    row_id = mycursor.lastrowid
+    return row_id
 
 
 def selectGame(sport, league, game, date, times):
-    connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+    game_id = ''
+    """ connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
                                  db=dbName
                                  )
     game_id = ''
@@ -113,11 +146,27 @@ def selectGame(sport, league, game, date, times):
 
     finally:
         connection.close()
-        return game_id
+        return game_id """
+    mydb = mysql.connector.connect(
+        host=dbServerName, user=dbUser, password=dbPassword,
+        db=dbName
+    )
+
+    mycursor = mydb.cursor()
+
+    sql = "SELECT `id` FROM `game` WHERE `sport`=%s AND `date`=%s AND `time`=%s AND `league`=%s AND `game`=%s"
+    mycursor.execute(sql, (sport, date, times, league, game))
+    result = mycursor.fetchone()
+    if result == None:
+
+        game_id = insertGame(sport, league, game, date, times)
+    else:
+        game_id = result[0]
+    return game_id
 
 
 def insertGameBet(game_id, market_id):
-    connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+    """ connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
                                  db=dbName)
     row_id = ''
 
@@ -136,11 +185,24 @@ def insertGameBet(game_id, market_id):
 
     finally:
         connection.close()
-        return row_id
+        return row_id """
+    mydb = mysql.connector.connect(
+        host=dbServerName, user=dbUser, password=dbPassword,
+        db=dbName
+    )
+
+    mycursor = mydb.cursor()
+
+    sql = "INSERT INTO `game_bet` (`game_id`, `market_id`) VALUES (%s, %s)"
+    mycursor.execute(sql, (game_id, market_id))
+
+    mydb.commit()
+    row_id = mycursor.lastrowid
+    return row_id
 
 
 def selectGameBet(game_id, market_id):
-    connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+    """ connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
                                  db=dbName
                                  )
     game_bet_id = ''
@@ -161,10 +223,27 @@ def selectGameBet(game_id, market_id):
     finally:
         connection.close()
         return game_bet_id
+ """
+    game_bet_id = ''
+    mydb = mysql.connector.connect(
+        host=dbServerName, user=dbUser, password=dbPassword,
+        db=dbName
+    )
+
+    mycursor = mydb.cursor()
+
+    sql = "SELECT `id` FROM `game_bet` WHERE `game_id`=%s AND `market_id`=%s "
+    mycursor.execute(sql, (game_id, market_id))
+    result = mycursor.fetchone()
+    if result == None:
+        game_bet_id = insertGameBet(game_id, market_id)
+    else:
+        game_bet_id = result[0]
+    return game_bet_id
 
 
 def insertOdd(game_bet_id, des, odd):
-    connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+    """ connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
                                  db=dbName)
     row_id = ''
 
@@ -182,11 +261,25 @@ def insertOdd(game_bet_id, des, odd):
 
     finally:
         connection.close()
-        return row_id
+        return row_id """
+
+    mydb = mysql.connector.connect(
+        host=dbServerName, user=dbUser, password=dbPassword,
+        db=dbName
+    )
+
+    mycursor = mydb.cursor()
+
+    sql = "INSERT INTO `odds` (`game_bet_id`, `des`,`odd`) VALUES (%s, %s, %s)"
+    mycursor.execute(sql, (game_bet_id, des, odd))
+
+    mydb.commit()
+    row_id = mycursor.lastrowid
+    return row_id
 
 
 def selectOdd(game_bet_id, des, odd):
-    connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+    """ connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
                                  db=dbName
                                  )
 
@@ -206,7 +299,23 @@ def selectOdd(game_bet_id, des, odd):
                     insertOdd(game_bet_id, des, odd)
 
     finally:
-        connection.close()
+        connection.close() """
+    mydb = mysql.connector.connect(
+        host=dbServerName, user=dbUser, password=dbPassword,
+        db=dbName
+    )
+
+    mycursor = mydb.cursor()
+
+    sql = "SELECT `id`, `odd` FROM `odds` WHERE `game_bet_id`=%s AND `des`=%s  ORDER BY `created_at` DESC "
+    mycursor.execute(sql, (game_bet_id, des))
+    result = mycursor.fetchone()
+    if result == None:
+        insertOdd(game_bet_id, des, odd)
+
+    else:
+        if float(result[1]) != float(odd):
+            insertOdd(game_bet_id, des, odd)
 
 
 def extractMatchList(link):
