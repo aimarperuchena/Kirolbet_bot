@@ -370,6 +370,7 @@ def extractMatchList(link):
         soup2 = BeautifulSoup(html.content,  "html.parser")
         games = soup2.findAll("li", {"class": "filtroCategoria"})
         print('aaaaaa')
+        print(games)
         for game in games:
             game_info = game.find("div", {"class": "infoEve"})
             info = game_info.find("div", {"class": "info"})
