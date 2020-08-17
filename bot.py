@@ -4,7 +4,7 @@ import pymysql
 import urlopen
 import time
 from bs4 import BeautifulSoup
-from urllib.request import Request, urlopen
+from urllib import request
 import datetime
 import sys
 
