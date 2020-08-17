@@ -323,11 +323,15 @@ def selectOdd(game_bet_id, des, odd):
 
 
 def extractMatchList(link):
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}
+    hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
+       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+       'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+       'Accept-Encoding': 'none',
+       'Accept-Language': 'en-US,en;q=0.8',
+       'Connection': 'keep-alive'}
     reg_url = link
     context = ssl._create_unverified_context()
-    req = Request(url=reg_url, headers=headers)
+    req = Request(url=reg_url, headers=hdr)
     html = urlopen(req,context=context).read()
     soup2 = BeautifulSoup(html,  "html.parser")
     games = soup2.findAll("li", {"class": "filtroCategoria"})
@@ -357,11 +361,15 @@ def extractMatchList(link):
 
 
 def extractMarkets(link):
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}
+    hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
+       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+       'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+       'Accept-Encoding': 'none',
+       'Accept-Language': 'en-US,en;q=0.8',
+       'Connection': 'keep-alive'}
     reg_url = link
     context = ssl._create_unverified_context()
-    req = Request(url=reg_url, headers=headers)
+    req = Request(url=reg_url, headers=hdr)
     html = urlopen(req,context=context).read()
     soup2 = BeautifulSoup(html, "html.parser")
 
