@@ -365,13 +365,13 @@ def extractMatchList(link):
     html = urlopen(req,context=context).read() """
     print('GAMEEEEEEEEEEEEE')
     try:
-        print('MATCH: '+link)
+       
         html = requests.get(link)
 
         soup2 = BeautifulSoup(html.content,  "html.parser")
         games = soup2.findAll("li", {"class": "filtroCategoria"})
-        print('aaaaaa')
-        print(games)
+        
+        print(soup2)
         for game in games:
             game_info = game.find("div", {"class": "infoEve"})
             info = game_info.find("div", {"class": "info"})
