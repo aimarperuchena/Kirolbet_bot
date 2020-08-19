@@ -14,10 +14,12 @@ dbUser = "remote"
 dbPassword = "Pasaia16"
 dbName = "kirolbet_db"
 
+connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+                             db=dbName)
+
 
 def insertMarket(market, sport):
-    connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
-                                 db=dbName)
+
     row_id = ''
     try:
         with connection.cursor() as cursor:
@@ -31,15 +33,13 @@ def insertMarket(market, sport):
             row_id = cursor.lastrowid
 
     finally:
-        connection.close()
+
         return row_id
 
 
 def selectMarket(market, sport):
     market_id = ''
-    connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
-                                 db=dbName
-                                 )
+
     try:
         with connection.cursor() as cursor:
             # Read a single record
@@ -53,13 +53,12 @@ def selectMarket(market, sport):
                 market_id = result[0]
 
     finally:
-        connection.close()
+
         return market_id
 
 
 def insertGame(sport, league, game, date, times):
-    connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
-                                 db=dbName)
+
     row_id = ''
 
     try:
@@ -77,14 +76,12 @@ def insertGame(sport, league, game, date, times):
         print('Value error')
 
     finally:
-        connection.close()
+
         return row_id
 
 
 def selectGame(sport, league, game, date, times):
-    connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
-                                 db=dbName
-                                 )
+
     game_id = ''
     try:
 
@@ -101,13 +98,12 @@ def selectGame(sport, league, game, date, times):
                 game_id = result[0]
 
     finally:
-        connection.close()
+
         return game_id
 
 
 def insertGameBet(game_id, market_id):
-    connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
-                                 db=dbName)
+
     row_id = ''
 
     try:
@@ -124,14 +120,12 @@ def insertGameBet(game_id, market_id):
         print('Value error')
 
     finally:
-        connection.close()
+
         return row_id
 
 
 def selectGameBet(game_id, market_id):
-    connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
-                                 db=dbName
-                                 )
+
     game_bet_id = ''
     try:
 
@@ -148,13 +142,11 @@ def selectGameBet(game_id, market_id):
                 game_bet_id = result[0]
 
     finally:
-        connection.close()
+
         return game_bet_id
 
 
 def insertOdd(game_bet_id, des, odd):
-    connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
-                                 db=dbName)
     row_id = ''
 
     try:
@@ -170,14 +162,11 @@ def insertOdd(game_bet_id, des, odd):
         print('Value error')
 
     finally:
-        connection.close()
+
         return row_id
 
 
 def selectOdd(game_bet_id, des, odd):
-    connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
-                                 db=dbName
-                                 )
 
     try:
 
@@ -193,10 +182,8 @@ def selectOdd(game_bet_id, des, odd):
             else:
                 if float(result[1]) != float(odd):
                     insertOdd(game_bet_id, des, odd)
-
     finally:
-        connection.close()
-
+        d=1                
 
 def extractMatchList(link):
     headers = {
