@@ -9,9 +9,9 @@ import datetime
 
 import requests
 import pymysql.cursors
-dbServerName = "localhost"
-dbUser = "root"
-dbPassword = "MHSUy-{0iyX5H4SJPQd"
+dbServerName = "104.248.19.36"
+dbUser = "remote"
+dbPassword = "Pasaia16"
 dbName = "kirolbet_db"
 
 
