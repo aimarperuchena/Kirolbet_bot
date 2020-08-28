@@ -57,15 +57,15 @@ def selectMarket(market, sport):
         return market_id
 
 
-def insertGame(sport, league, game, date, times):
+def insertGame(sport_id, league_id, game, date, times):
 
     row_id = ''
 
     try:
         with connection.cursor() as cursor:
             # Create a new record
-            sql = "INSERT INTO `game` (`game`, `date`, `time`,`sport`,`league`) VALUES (%s, %s,%s,%s,%s)"
-            cursor.execute(sql, (game, date, times, sport, league))
+            sql = "INSERT INTO `game` (`game`, `date`, `time`,`sport_id`,`league_id`) VALUES (%s, %s,%s,%s,%s)"
+            cursor.execute(sql, (game, date, times, sport_id, league_id))
 
             # connection is not autocommit by default. So you must commit to save
             # your changes.
@@ -80,7 +80,7 @@ def insertGame(sport, league, game, date, times):
         return row_id
 
 
-def selectGame(sport, league, game, date, times):
+def selectGame(sport_id, league_id, game, date, times):
 
     game_id = ''
     try:
@@ -88,12 +88,12 @@ def selectGame(sport, league, game, date, times):
         with connection.cursor() as cursor:
 
             # Read a single record
-            sql = "SELECT `id` FROM `game` WHERE `sport`=%s AND `date`=%s AND `time`=%s AND `league`=%s AND `game`=%s"
-            cursor.execute(sql, (sport, date, times, league, game))
+            sql = "SELECT `id` FROM `game` WHERE `sport_id`=%s AND `date`=%s AND `time`=%s AND `league_id`=%s AND `game`=%s"
+            cursor.execute(sql, (sport_id, date, times, league_id, game))
             result = cursor.fetchone()
             if result == None:
 
-                game_id = insertGame(sport, league, game, date, times)
+                game_id = insertGame(sport_id, league_id, game, date, times)
             else:
                 game_id = result[0]
 
@@ -183,7 +183,93 @@ def selectOdd(game_bet_id, des, odd):
                 if float(result[1]) != float(odd):
                     insertOdd(game_bet_id, des, odd)
     finally:
-        d=1                
+        d = 1
+
+
+def selectSport(des):
+    row_id = 0
+    try:
+
+        with connection.cursor() as cursor:
+
+            # Read a single record
+            sql = "SELECT `id` FROM `sport` WHERE `des`=%s "
+            cursor.execute(sql, (des))
+            result = cursor.fetchone()
+            if result == None:
+                row_id = insertSport(des)
+
+            else:
+                row_id = result[0]
+    except Exception as e: print(e)
+    finally:
+        return row_id
+
+
+def insertSport(des):
+    row_id = ''
+
+    try:
+        with connection.cursor() as cursor:
+            # Create a new record
+            sql = "INSERT INTO `sport` (`des`) VALUES ( %s)"
+            cursor.execute(sql, (des))
+
+            # connection is not autocommit by default. So you must commit to save
+            # your changes.
+            connection.commit()
+            row_id = cursor.lastrowid
+    except ValueError as e:
+        print('Value error')
+
+    finally:
+
+        return row_id
+
+
+def selectLeague(sport_id, des):
+    row_id = ''
+    try:
+
+        with connection.cursor() as cursor:
+            # Read a single record
+            sql = "SELECT `id` FROM `league` WHERE `des`=%s AND `sport_id`=%s "
+            cursor.execute(sql, (des, sport_id))
+            result = cursor.fetchone()
+            if result == None:
+                
+                row_id = insertLeague(sport_id, des)
+
+            else:
+                row_id = result[0]
+    except Exception as e:
+        print('aaaaa'+e)
+    finally:
+        return row_id
+
+
+def insertLeague(sport_id, des):
+    row_id = ''
+
+    try:
+        with connection.cursor() as cursor:
+           
+            # Create a new record
+            sql = "INSERT INTO `league` (`des`, `sport_id`) VALUES ( %s, %s)"
+            cursor.execute(sql, (des, sport_id))
+
+            # connection is not autocommit by default. So you must commit to save
+            # your changes.
+            connection.commit()
+            row_id = cursor.lastrowid
+    except Exception as e:
+      
+        print(e)
+
+    finally:
+
+        return row_id
+
 
 def extractMatchList(link):
     headers = {
@@ -219,7 +305,8 @@ def extractMatchList(link):
 
 
 def extractMarkets(link):
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}    
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}
     reg_url = link
     req = Request(url=reg_url, headers=headers)
     html = urlopen(req).read()
@@ -231,9 +318,10 @@ def extractMarkets(link):
     game = ''
     game_id = ''
     market_id = ''
-
+    sport_id = ''
     sport = ''
     league = ''
+    league_id = ''
 
     '''DATE'''
     span_date = soup2.find("span", {"class": "hora dateFecha"})
@@ -253,9 +341,12 @@ def extractMarkets(link):
     lis_breadcrumb = ul_breadcrumb.findAll("li")
     sport = lis_breadcrumb[1].text.strip()
     league = lis_breadcrumb[2].text
+    sport_id = selectSport(sport)
+   
+    league_id = selectLeague(sport_id, league)
 
     '''SELECT GAME DB'''
-    game_id = selectGame(sport, league, game, date, times)
+    game_id = selectGame(sport_id, league_id, game, date, times)
     '''MARKETS'''
     next_markets = soup2.find("div", {"class": "prox_eventos"})
     markets = next_markets.findAll(

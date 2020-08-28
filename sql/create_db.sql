@@ -4,16 +4,36 @@ CREATE TABLE `market` (
   `des` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
+CREATE TABLE `sport` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `des` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB ;
+
+CREATE TABLE `league` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sport_id` int(11) DEFAULT NULL,
+  `des` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sport_id_fk_idx` (`sport_id`),
+  CONSTRAINT `sport_id_fk_2` FOREIGN KEY (`sport_id`) REFERENCES `sport` (`id`)
+) ENGINE=InnoDB ;
+
 
 CREATE TABLE `game` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `game` varchar(200) DEFAULT NULL,
-  `sport` varchar(200) DEFAULT NULL,
-  `league` varchar(200) DEFAULT NULL,
+  `sport_id` int(11) DEFAULT NULL,
+  `league_id` int(11) DEFAULT NULL,
   `date` date DEFAULT NULL,
   `time` time DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
+  PRIMARY KEY (`id`),
+  KEY `sport_id_fk_idx` (`sport_id`),
+  KEY `league_id_fk_idx` (`league_id`),
+  CONSTRAINT `league_id_fk` FOREIGN KEY (`league_id`) REFERENCES `league` (`id`),
+  CONSTRAINT `sport_id_fk` FOREIGN KEY (`sport_id`) REFERENCES `sport` (`id`)
+) ENGINE=InnoDB ;
+
 
 CREATE TABLE `game_bet` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
