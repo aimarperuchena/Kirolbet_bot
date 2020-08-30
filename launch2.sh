@@ -1,1 +1,0 @@
-xterm  -T BOT_1 -e python3 bot_1.py & xterm  -T BOT_2  -e python3 bot_2.py & xterm  -T BOT_3 -e python3 bot_3.py & xterm  -T BOT_4 -e python3 bot_4.py & xterm  -T BOT_5 -e python3 bot_5.py& xterm  -T BOT_6 -e python3 bot_6.py
