@@ -372,7 +372,7 @@ def extractMarkets(link):
             coef = odd_a.find("span", {"class": "coef"})
             odd = coef.text.replace(",", ".")
             selectOdd(game_bet_id, des, odd)
-
+    print(sport+' -- '+game)
 
 def extractLeagues():
     with open('ligas_3.html', 'r') as f:

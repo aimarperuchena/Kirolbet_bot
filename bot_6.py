@@ -374,8 +374,9 @@ def extractMarkets(link):
             selectOdd(game_bet_id, des, odd)
     print(sport+' -- '+game)
 
+
 def extractLeagues():
-    with open('ligas_4.html', 'r') as f:
+    with open('ligas_6.html', 'r') as f:
         contents = f.read()
         soup = BeautifulSoup(contents,  "html.parser")
         general_ul = soup.find("ul", {"class": "ksAccordion-toggle"})
