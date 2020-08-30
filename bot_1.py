@@ -393,8 +393,9 @@ def extractLeagues():
 a = 1
 while a == 1:
     print('new scann')
-    
-    extractLeagues()
-    
+    try:
+        extractLeagues()
+    except ValueError as e:
+        print('Value error')
     
     time.sleep(300)
