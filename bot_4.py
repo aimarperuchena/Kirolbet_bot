@@ -115,7 +115,7 @@ def insertGameBet(game_id, market_id):
             # your changes.
             connection.commit()
             row_id = cursor.lastrowid
-     except Exception as e: print(e)
+    except Exception as e: print(e)
 
     finally:
 
@@ -138,7 +138,7 @@ def selectGameBet(game_id, market_id):
                 game_bet_id = insertGameBet(game_id, market_id)
             else:
                 game_bet_id = result[0]
-     except Exception as e: print(e)
+    except Exception as e: print(e)
     finally:
 
         return game_bet_id
@@ -217,7 +217,7 @@ def insertSport(des):
             # your changes.
             connection.commit()
             row_id = cursor.lastrowid
-     except Exception as e: print(e)
+    except Exception as e: print(e)
 
     finally:
 
@@ -239,7 +239,7 @@ def selectLeague(sport_id, des):
 
             else:
                 row_id = result[0]
-     except Exception as e: print(e)
+    except Exception as e: print(e)
     finally:
         return row_id
 
