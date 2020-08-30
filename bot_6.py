@@ -393,5 +393,9 @@ def extractLeagues():
 a = 1
 while a == 1:
     print('new scann')
-    extractLeagues()
+    try:
+        extractLeagues()
+    except Exception as e:
+      
+        print(e)
     time.sleep(300)

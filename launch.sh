@@ -1,0 +1,1 @@
+python3 bot_1.py& python3 bot_2.py& python3 bot_3.py& python3 bot_4.py& python3 bot_5.py& python3 bot_6.py&
