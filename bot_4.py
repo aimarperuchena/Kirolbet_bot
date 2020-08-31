@@ -31,7 +31,7 @@ def insertMarket(market, sport):
             # your changes.
             connection.commit()
             row_id = cursor.lastrowid
-    except Exception as e: print(e)
+
     finally:
 
         return row_id
@@ -51,7 +51,7 @@ def selectMarket(market, sport):
                 market_id = insertMarket(market, sport)
             else:
                 market_id = result[0]
-    except Exception as e: print(e)
+
     finally:
 
         return market_id
@@ -72,7 +72,8 @@ def insertGame(sport_id, league_id, game, date, times):
             connection.commit()
             row_id = cursor.lastrowid
 
-    except Exception as e: print(e)
+    except ValueError as e:
+        print('Value error')
 
     finally:
 
@@ -95,7 +96,7 @@ def selectGame(sport_id, league_id, game, date, times):
                 game_id = insertGame(sport_id, league_id, game, date, times)
             else:
                 game_id = result[0]
-    except Exception as e: print(e)
+
     finally:
 
         return game_id
@@ -115,7 +116,8 @@ def insertGameBet(game_id, market_id):
             # your changes.
             connection.commit()
             row_id = cursor.lastrowid
-    except Exception as e: print(e)
+    except ValueError as e:
+        print('Value error')
 
     finally:
 
@@ -138,7 +140,7 @@ def selectGameBet(game_id, market_id):
                 game_bet_id = insertGameBet(game_id, market_id)
             else:
                 game_bet_id = result[0]
-    except Exception as e: print(e)
+
     finally:
 
         return game_bet_id
@@ -156,7 +158,8 @@ def insertOdd(game_bet_id, des, odd):
             # connection is not autocommit by default. So you must commit to save
             # your changes.
             connection.commit()
-    except Exception as e: print(e)
+    except ValueError as e:
+        print('Value error')
 
     finally:
 
@@ -179,7 +182,6 @@ def selectOdd(game_bet_id, des, odd):
             else:
                 if float(result[1]) != float(odd):
                     insertOdd(game_bet_id, des, odd)
-    except Exception as e: print(e)
     finally:
         d = 1
 
@@ -217,7 +219,8 @@ def insertSport(des):
             # your changes.
             connection.commit()
             row_id = cursor.lastrowid
-    except Exception as e: print(e)
+    except ValueError as e:
+        print('Value error')
 
     finally:
 
@@ -239,7 +242,8 @@ def selectLeague(sport_id, des):
 
             else:
                 row_id = result[0]
-    except Exception as e: print(e)
+    except Exception as e:
+        print('aaaaa'+e)
     finally:
         return row_id
 
@@ -368,7 +372,7 @@ def extractMarkets(link):
             coef = odd_a.find("span", {"class": "coef"})
             odd = coef.text.replace(",", ".")
             selectOdd(game_bet_id, des, odd)
-    print(league+' -- '+game)
+    print(sport+' -- '+game)
 
 def extractLeagues():
     with open('ligas_4.html', 'r') as f:
