@@ -411,72 +411,72 @@ def extractMatchList(link):
 
 def extractMarkets(link):
     try:
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}
-    reg_url = link
-    req = Request(url=reg_url, headers=headers)
-    html = urlopen(req).read()
-    soup2 = BeautifulSoup(html, "html.parser")
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}
+        reg_url = link
+        req = Request(url=reg_url, headers=headers)
+        html = urlopen(req).read()
+        soup2 = BeautifulSoup(html, "html.parser")
 
-    date_time = ''
-    date = ''
-    times = ''
-    game = ''
-    game_id = ''
-    market_id = ''
-    sport_id = ''
-    sport = ''
-    league = ''
-    league_id = ''
-
-    '''DATE'''
-    span_date = soup2.find("span", {"class": "hora dateFecha"})
-    date_time = span_date['title']
-    date_time = date_time.split(" ")
-    date = date_time[0]
-    times = date_time[1]
-    times = times.replace("Z", "")
-
-    '''GAME TEAMS'''
-    game_title = soup2.find("h3", {"class": "titulo_seccion"})
-    game = game_title.text
-
-    '''SPORT'''
-    div_breadcrumb = soup2.find("div", {"class": "breadcrumb"})
-    ul_breadcrumb = div_breadcrumb.find("ul")
-    lis_breadcrumb = ul_breadcrumb.findAll("li")
-    sport = lis_breadcrumb[1].text.strip()
-    league = lis_breadcrumb[2].text
-    sport_id = selectSport(sport)
-   
-    league_id = selectLeague(sport_id, league)
-
-    '''SELECT GAME DB'''
-    game_id = selectGame(sport_id, league_id, game, date, times)
-    '''MARKETS'''
-    next_markets = soup2.find("div", {"class": "prox_eventos"})
-    markets = next_markets.findAll(
-        "ul", {"market-group-id": "market.MarketGroupId"})
-    ''' game_info = [{"date": date}, {"game": game},
-                 {"sport": sport}, {"league": league}] '''
-
-    for market in markets:
+        date_time = ''
+        date = ''
+        times = ''
+        game = ''
+        game_id = ''
         market_id = ''
-        game_bet_id = ''
-        market_des = market["des"].strip()
-        market_id = selectMarket(market_des, sport_id)
-        odds_toggle = market.find("li", {"class": "ksToggle"})
-        market_odds_div = odds_toggle.find(
-            "div", {"class": "apuestas_partido"})
-        market_odds_a = market_odds_div.findAll("a")
+        sport_id = ''
+        sport = ''
+        league = ''
+        league_id = ''
 
-        game_bet_id = selectGameBet(game_id, market_id)
-        for odd_a in market_odds_a:
-            des = odd_a["des"]
-            coef = odd_a.find("span", {"class": "coef"})
-            odd = coef.text.replace(",", ".")
-            selectOdd(game_bet_id, des, odd)
+        '''DATE'''
+        span_date = soup2.find("span", {"class": "hora dateFecha"})
+        date_time = span_date['title']
+        date_time = date_time.split(" ")
+        date = date_time[0]
+        times = date_time[1]
+        times = times.replace("Z", "")
+
+        '''GAME TEAMS'''
+        game_title = soup2.find("h3", {"class": "titulo_seccion"})
+        game = game_title.text
+
+        '''SPORT'''
+        div_breadcrumb = soup2.find("div", {"class": "breadcrumb"})
+        ul_breadcrumb = div_breadcrumb.find("ul")
+        lis_breadcrumb = ul_breadcrumb.findAll("li")
+        sport = lis_breadcrumb[1].text.strip()
+        league = lis_breadcrumb[2].text
+        sport_id = selectSport(sport)
     
+        league_id = selectLeague(sport_id, league)
+
+        '''SELECT GAME DB'''
+        game_id = selectGame(sport_id, league_id, game, date, times)
+        '''MARKETS'''
+        next_markets = soup2.find("div", {"class": "prox_eventos"})
+        markets = next_markets.findAll(
+            "ul", {"market-group-id": "market.MarketGroupId"})
+        ''' game_info = [{"date": date}, {"game": game},
+                     {"sport": sport}, {"league": league}] '''
+
+        for market in markets:
+            market_id = ''
+            game_bet_id = ''
+            market_des = market["des"].strip()
+            market_id = selectMarket(market_des, sport_id)
+            odds_toggle = market.find("li", {"class": "ksToggle"})
+            market_odds_div = odds_toggle.find(
+                "div", {"class": "apuestas_partido"})
+            market_odds_a = market_odds_div.findAll("a")
+
+            game_bet_id = selectGameBet(game_id, market_id)
+            for odd_a in market_odds_a:
+                des = odd_a["des"]
+                coef = odd_a.find("span", {"class": "coef"})
+                odd = coef.text.replace(",", ".")
+                selectOdd(game_bet_id, des, odd)
+
         print(league+' -- '+game)
     except Exception as e:
         print(e)
