@@ -210,7 +210,7 @@ def insertOdd(game_bet_id, des, odd):
         with connection.cursor() as cursor:
             # Create a new record
             sql = "INSERT INTO `odds` (`game_bet_id`, `des`,`odd`) VALUES (%s, %s, %s)"
-            cursor.execute(sql, (game_bet_id, des, odd))
+            cursor.execute(sql, (int(game_bet_id), des, odd))
 
             # connection is not autocommit by default. So you must commit to save
             # your changes.
