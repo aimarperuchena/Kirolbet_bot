@@ -15,6 +15,23 @@ dbName = "Kirolbet_db"
 connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
                              db=dbName)
 
+def insertError(type, des):
+    try:
+        with connection.cursor() as cursor:
+            # Create a new record
+            sql = "INSERT INTO `error` (`type`, `des`) VALUES (%s, %s)"
+            cursor.execute(sql, (type, des))
+
+            # connection is not autocommit by default. So you must commit to save
+            # your changes.
+            connection.commit()
+            
+    except Exception as e:
+        print('INSERT ERROR')
+        
+    
+
+
 def diff_dates(date1, date2):
     return abs(date2-date1).days
 
@@ -34,6 +51,7 @@ def insertMarket(market, sport):
     except Exception as e:
         print('INSERT MARKET')
         print(e)
+        insertError('INSERT MARKET', e)
     finally:
 
         return row_id
@@ -56,6 +74,8 @@ def selectMarket(market, sport_id):
     except Exception as e:
         print('SELECT MARKET')
         print(e)
+        insertError('SELECT MARKET', e)
+
     finally:
 
         return market_id
@@ -79,6 +99,8 @@ def insertGame(sport_id, league_id, game, date, times):
     except Exception as e:
         print('INSERT GAME')
         print(e)
+        insertError('INSERT GAME', e)
+
 
     finally:
 
@@ -96,7 +118,9 @@ def updateGame(date, times, game_id):
             result = cursor.fetchone()
     except Exception as e: 
         print('UPDATE GAME')
-        print(e)      
+        print(e)   
+        insertError('UPDATE GAME', e)
+   
     finally:
 
         return result
@@ -149,7 +173,9 @@ def selectGame(sport_id, league_id, game, date, times):
                 
     except Exception as e: 
         print('SELECT GAME')
-        print(e)               
+        print(e)  
+        insertError('SELECT GAME', e)
+             
 
     finally:
 
@@ -173,6 +199,7 @@ def insertGameBet(game_id, market_id):
     except Exception as e:
         print('INSERT GAME BET')
         print(e)
+        insertError('INSERT GAMEBET', e)
 
     finally:
 
@@ -198,6 +225,8 @@ def selectGameBet(game_id, market_id):
     except Exception as e:
         print('SELECT GAMEBET')
         print(e)
+        insertError('SELECT GAMEBET', e)
+
     finally:
 
         return game_bet_id
@@ -218,6 +247,8 @@ def insertOdd(game_bet_id, des, odd):
     except Exception as e:
         print('INSERT ODD')
         print(e)
+        insertError('INSERT ODD', e)
+
 
     finally:
 
@@ -243,6 +274,8 @@ def selectOdd(game_bet_id, des, odd):
     except Exception as e:
         print('SELECT ODD')
         print(e)
+        insertError('SELECT ODD', e)
+
     finally:
         d = 1
 
@@ -265,6 +298,8 @@ def selectSport(des):
     except Exception as e:
         print('SELECT SPORT')
         print(e)
+        insertError('SELECT SPORT', e)
+
     finally:
         return row_id
 
@@ -285,6 +320,8 @@ def insertSport(des):
     except Exception as e:
         print('INSERT SPORT')
         print(e)
+        insertError('INSERT SPORT', e)
+
 
     finally:
 
@@ -309,6 +346,8 @@ def selectLeague(sport_id, des):
     except Exception as e:
         print('SELECT LEAGUE')
         print(e)
+        insertError('SELECT LEAGUE', e)
+
     finally:
         return row_id
 
@@ -330,6 +369,8 @@ def insertLeague(sport_id, des):
     except Exception as e:
         print('INSERT LEAGUE')
         print(e)
+        insertError('INSERT LEAGUE', e)
+
     finally:
 
         return row_id
@@ -369,6 +410,7 @@ def extractMatchList(link):
 
 
 def extractMarkets(link):
+    try:
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}
     reg_url = link
@@ -418,7 +460,6 @@ def extractMarkets(link):
     ''' game_info = [{"date": date}, {"game": game},
                  {"sport": sport}, {"league": league}] '''
 
-    markets_array = []
     for market in markets:
         market_id = ''
         game_bet_id = ''
@@ -429,14 +470,13 @@ def extractMarkets(link):
             "div", {"class": "apuestas_partido"})
         market_odds_a = market_odds_div.findAll("a")
 
-        odds_array = []
         game_bet_id = selectGameBet(game_id, market_id)
         for odd_a in market_odds_a:
             des = odd_a["des"]
             coef = odd_a.find("span", {"class": "coef"})
             odd = coef.text.replace(",", ".")
             selectOdd(game_bet_id, des, odd)
-    try:
+    
         print(league+' -- '+game)
     except Exception as e:
         print(e)
