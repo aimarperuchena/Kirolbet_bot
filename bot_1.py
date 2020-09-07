@@ -31,7 +31,9 @@ def insertMarket(market, sport):
             # your changes.
             connection.commit()
             row_id = cursor.lastrowid
-
+    except Exception as e:
+        print('INSERT MARKET')
+        print(e)
     finally:
 
         return row_id
@@ -51,7 +53,9 @@ def selectMarket(market, sport):
                 market_id = insertMarket(market, sport)
             else:
                 market_id = result[0]
-
+    except Exception as e:
+        print('SELECT MARKET')
+        print(e)
     finally:
 
         return market_id
@@ -166,8 +170,9 @@ def insertGameBet(game_id, market_id):
             # your changes.
             connection.commit()
             row_id = cursor.lastrowid
-    except ValueError as e:
-        print('Value error')
+    except Exception as e:
+        print('INSERT GAME BET')
+        print(e)
 
     finally:
 
@@ -190,7 +195,9 @@ def selectGameBet(game_id, market_id):
                 game_bet_id = insertGameBet(game_id, market_id)
             else:
                 game_bet_id = result[0]
-
+    except Exception as e:
+        print('SELECT GAMEBET')
+        print(e)
     finally:
 
         return game_bet_id
@@ -208,8 +215,9 @@ def insertOdd(game_bet_id, des, odd):
             # connection is not autocommit by default. So you must commit to save
             # your changes.
             connection.commit()
-    except ValueError as e:
-        print('Value error')
+    except Exception as e:
+        print('INSERT ODD')
+        print(e)
 
     finally:
 
@@ -232,6 +240,9 @@ def selectOdd(game_bet_id, des, odd):
             else:
                 if float(result[1]) != float(odd):
                     insertOdd(game_bet_id, des, odd)
+    except Exception as e:
+        print('SELECT ODD')
+        print(e)
     finally:
         d = 1
 
@@ -251,7 +262,9 @@ def selectSport(des):
 
             else:
                 row_id = result[0]
-    except Exception as e: print(e)
+    except Exception as e:
+        print('SELECT SPORT')
+        print(e)
     finally:
         return row_id
 
@@ -269,8 +282,9 @@ def insertSport(des):
             # your changes.
             connection.commit()
             row_id = cursor.lastrowid
-    except ValueError as e:
-        print('Value error')
+    except Exception as e:
+        print('INSERT SPORT')
+        print(e)
 
     finally:
 
@@ -293,7 +307,8 @@ def selectLeague(sport_id, des):
             else:
                 row_id = result[0]
     except Exception as e:
-        print('aaaaa'+e)
+        print('SELECT LEAGUE')
+        print(e)
     finally:
         return row_id
 
@@ -313,9 +328,8 @@ def insertLeague(sport_id, des):
             connection.commit()
             row_id = cursor.lastrowid
     except Exception as e:
-      
+        print('INSERT LEAGUE')
         print(e)
-
     finally:
 
         return row_id
