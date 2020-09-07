@@ -7,7 +7,6 @@ from urllib.request import Request, urlopen
 import datetime
 
 
-import requests
 import pymysql.cursors
 dbServerName = "35.242.242.84"
 dbUser = "remote"
@@ -17,7 +16,10 @@ dbName = "Kirolbet_db"
 connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
                              db=dbName)
 
-
+def days_between(d1, d2):
+    d1 = datetime.strptime(d1, "%Y-%m-%d")
+    d2 = datetime.strptime(d2, "%Y-%m-%d")
+    return abs((d2 - d1).days)
 def insertMarket(market, sport):
 
     row_id = ''
@@ -79,7 +81,19 @@ def insertGame(sport_id, league_id, game, date, times):
 
         return row_id
 
+def updateGame(date, times, game_id):
+    try:
 
+        with connection.cursor() as cursor:
+
+            # Read a single record
+            sql = "UPDATE game set date = %s, time=%s where id=%s"
+            cursor.execute(sql, (date, times, game_id))
+            result = cursor.fetchone()
+            
+    finally:
+
+        return result
 def selectGame(sport_id, league_id, game, date, times):
 
     game_id = ''
@@ -88,7 +102,7 @@ def selectGame(sport_id, league_id, game, date, times):
         with connection.cursor() as cursor:
 
             # Read a single record
-            sql = "SELECT `id` FROM `game` WHERE `sport_id`=%s AND `date`=%s AND `time`=%s AND `league_id`=%s AND `game`=%s"
+            sql = "SELECT `id, date, time` FROM `game` WHERE `sport_id`=%s AND `league_id`=%s AND `game`=%s"
             cursor.execute(sql, (sport_id, date, times, league_id, game))
             result = cursor.fetchone()
             if result == None:
@@ -96,6 +110,12 @@ def selectGame(sport_id, league_id, game, date, times):
                 game_id = insertGame(sport_id, league_id, game, date, times)
             else:
                 game_id = result[0]
+                days = days_between(date, result[1])
+                print(days)
+                update=False
+                if days<5 and days>1 or result[2]!= times:
+                    updateGame(date, times, game_id)
+                    
 
     finally:
 

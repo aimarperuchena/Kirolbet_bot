@@ -5,9 +5,7 @@ import time
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 import datetime
-
-
-import requests
+from datetime import date
 import pymysql.cursors
 dbServerName = "35.242.242.84"
 dbUser = "remote"
@@ -17,6 +15,8 @@ dbName = "Kirolbet_db"
 connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
                              db=dbName)
 
+def diff_dates(date1, date2):
+    return abs(date2-date1).days
 
 def insertMarket(market, sport):
 
@@ -72,14 +72,30 @@ def insertGame(sport_id, league_id, game, date, times):
             connection.commit()
             row_id = cursor.lastrowid
 
-    except ValueError as e:
-        print('Value error')
+    except Exception as e:
+        print('INSERT GAME')
+        print(e)
 
     finally:
 
         return row_id
 
 
+def updateGame(date, times, game_id):
+    try:
+
+        with connection.cursor() as cursor:
+
+            # Read a single record
+            sql = "UPDATE game set date = %s, time=%s where id=%s"
+            cursor.execute(sql, (date, times, game_id))
+            result = cursor.fetchone()
+    except Exception as e: 
+        print('UPDATE GAME')
+        print(e)      
+    finally:
+
+        return result
 def selectGame(sport_id, league_id, game, date, times):
 
     game_id = ''
@@ -88,14 +104,48 @@ def selectGame(sport_id, league_id, game, date, times):
         with connection.cursor() as cursor:
 
             # Read a single record
-            sql = "SELECT `id` FROM `game` WHERE `sport_id`=%s AND `date`=%s AND `time`=%s AND `league_id`=%s AND `game`=%s"
-            cursor.execute(sql, (sport_id, date, times, league_id, game))
+            sql = "SELECT `id`, `date`, `time` FROM `game` WHERE `sport_id`=%s AND `league_id`=%s AND `game`=%s"
+            cursor.execute(sql, (sport_id, league_id, game))
             result = cursor.fetchone()
             if result == None:
 
                 game_id = insertGame(sport_id, league_id, game, date, times)
             else:
                 game_id = result[0]
+                game_date_select=datetime.datetime.strptime(str(result[1]), "%Y-%m-%d").strftime("%Y/%m/%d")
+                game_date=datetime.datetime.strptime(str(date), "%Y-%m-%d").strftime("%Y/%m/%d")
+                game_date_select=game_date_select.split('/')
+                game_date=game_date.split('/')
+                
+                game_date_select = [ int(x) for x in game_date_select ]
+                game_date = [ int(x) for x in game_date ]
+                
+                
+                l_date = datetime.datetime(game_date[0], game_date[1],game_date[2])
+                f_date = datetime.datetime(game_date_select[0], game_date_select[1],game_date_select[2])
+                delta = l_date - f_date 
+                days=delta.days
+                update=False
+                insert=False
+                if(days<=6):
+                    if(days==0):
+                        
+                        if(str(times)!=str(result[2])):
+                            print('OLD: '+str(result[2])+' NEW: '+str(times))
+                            print('NEW TIME UPDATE')
+                            updateGame(date,times,game_id)
+                        else:
+                            print('NO CHANGES')
+                    if(days>0):
+                        print('NEW DATE UPDATE')
+                        updateGame(date,times,game_id)
+                else:
+                    print('NEW GAME WITH NEW DATE') 
+                    game_id = insertGame(sport_id, league_id, game, date, times)   
+                
+    except Exception as e: 
+        print('SELECT GAME')
+        print(e)               
 
     finally:
 
