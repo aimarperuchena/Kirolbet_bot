@@ -1,14 +1,18 @@
-CREATE TABLE `market` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sport` varchar(45) DEFAULT NULL,
-  `des` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB;
 CREATE TABLE `sport` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `des` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB ;
+) ENGINE=InnoDB;
+CREATE TABLE `market` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sport_id` int(11) DEFAULT NULL,
+  `des` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sport_id_fk_3_idx` (`sport_id`),
+  CONSTRAINT `sport_id_fk_3` FOREIGN KEY (`sport_id`) REFERENCES `sport` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB;
+
+
 
 CREATE TABLE `league` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

@@ -24,7 +24,7 @@ def insertMarket(market, sport):
     try:
         with connection.cursor() as cursor:
             # Create a new record
-            sql = "INSERT INTO `market` (`sport`, `des`) VALUES (%s, %s)"
+            sql = "INSERT INTO `market` (`sport_id`, `des`) VALUES (%s, %s)"
             cursor.execute(sql, (sport, market))
 
             # connection is not autocommit by default. So you must commit to save
@@ -39,18 +39,18 @@ def insertMarket(market, sport):
         return row_id
 
 
-def selectMarket(market, sport):
+def selectMarket(market, sport_id):
     market_id = ''
 
     try:
         with connection.cursor() as cursor:
             # Read a single record
-            sql = "SELECT `id` FROM `market` WHERE `sport`=%s AND `des`=%s"
-            cursor.execute(sql, (sport, market))
+            sql = "SELECT `id` FROM `market` WHERE `sport_id`=%s AND `des`=%s"
+            cursor.execute(sql, (sport_id, market))
             result = cursor.fetchone()
             if result == None:
 
-                market_id = insertMarket(market, sport)
+                market_id = insertMarket(market, sport_id)
             else:
                 market_id = result[0]
     except Exception as e:
@@ -423,7 +423,7 @@ def extractMarkets(link):
         market_id = ''
         game_bet_id = ''
         market_des = market["des"].strip()
-        market_id = selectMarket(market_des, sport)
+        market_id = selectMarket(market_des, sport_id)
         odds_toggle = market.find("li", {"class": "ksToggle"})
         market_odds_div = odds_toggle.find(
             "div", {"class": "apuestas_partido"})
