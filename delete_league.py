@@ -7,14 +7,17 @@ dbName = "Kirolbet_db"
 
 connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
                              db=dbName)
-def selectGames(sport_id):
+
+
+
+def selectGames(league_id):
     games = ''
 
     try:
         with connection.cursor() as cursor:
             # Read a single record
-            sql = "SELECT `id` FROM `game` WHERE `sport_id`=%s"
-            cursor.execute(sql, (sport_id))
+            sql = "SELECT `id` FROM `game` WHERE `league_id`=%s"
+            cursor.execute(sql, (league_id))
             result = cursor.fetchall()
             games=result
     except Exception as e:
@@ -43,6 +46,8 @@ def selectGameBet(game_id):
     finally:
 
         return game_bet
+
+
 def deleteOdds(game_bet):
     try:
         with connection.cursor() as cursor:
@@ -55,6 +60,7 @@ def deleteOdds(game_bet):
            
     except Exception as e:
         print('DETE ODDS ERROR')
+
 def deleteGameBet(game_bet):
     try:
         with connection.cursor() as cursor:
@@ -66,7 +72,7 @@ def deleteGameBet(game_bet):
             connection.commit()
             
     except Exception as e:
-        print('DETE gamebet ERROR')     
+        print('DETE gamebet ERROR')   
 def deleteGame(game):
     try:
         with connection.cursor() as cursor:
@@ -93,63 +99,27 @@ def deleteGameTeam(game_id):
     except Exception as e:
         print('DETE game ERROR')  
         print(e)  
-def deleteLeagues(sport_id):
+
+def deleteLeague(league_id):
     try:
         with connection.cursor() as cursor:
             # Create a new record
-            sql = "Delete from league where sport_id = %s"
-            cursor.execute(sql, (sport_id))
+            sql = "Delete from league where id = %s"
+            cursor.execute(sql, (league_id))
             # connection is not autocommit by default. So you must commit to save
             # your changes.
             connection.commit()
 
     except Exception as e:
         print('DETE league ERROR')  
-        print(e)  
-def deleteSport(sport_id):
-    try:
-        with connection.cursor() as cursor:
-            # Create a new record
-            sql = "Delete from sport where id = %s"
-            cursor.execute(sql, (sport_id))
-            # connection is not autocommit by default. So you must commit to save
-            # your changes.
-            connection.commit()
-
-    except Exception as e:
-        print('DETE sport ERROR')  
-        print(e)  
-
-def deleteMarkets(sport_id):
-    try:
-        with connection.cursor() as cursor:
-            # Create a new record
-            sql = "Delete from market where sport_id = %s"
-            cursor.execute(sql, (sport_id))
-            # connection is not autocommit by default. So you must commit to save
-            # your changes.
-            connection.commit()
-
-    except Exception as e:
-        print('DETE market ERROR')  
         print(e) 
-def deleteTeam(sport_id):
-    try:
-        with connection.cursor() as cursor:
-            # Create a new record
-            sql = "Delete from team where sport_id = %s"
-            cursor.execute(sql, (sport_id))
-            # connection is not autocommit by default. So you must commit to save
-            # your changes.
-            connection.commit()
 
-    except Exception as e:
-        print('DETE team ERROR')  
-        print(e)    
-def main(sport_id):
-    games=selectGames(sport_id)
+def main(league_id):
+    games=selectGames(league_id)
+    print(games)
     for game in games:
         game_id=game[0]
+        
         game_bets=selectGameBet(game_id)
         for game_bet in game_bets:
             game_bet_id=game_bet[0]
@@ -157,10 +127,11 @@ def main(sport_id):
             deleteGameBet(game_bet_id)
         deleteGameTeam(game_id)
         deleteGame(game_id)
-    deleteLeagues(sport_id) 
-    deleteMarkets(sport_id) 
-    deleteTeam(sport_id) 
-    deleteSport(sport_id)    
+    deleteLeague(league_id)
+try:
+    main(14)
+   
+except Exception as e:
+    print(e)
 
-
-main(3)
+    
