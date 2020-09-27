@@ -13,4 +13,5 @@ PyMySQL==0.10.0
 six==1.15.0
 soupsieve==2.0.1
 toml==0.10.1
+mysql-connector-python
 wrapt==1.12.1
