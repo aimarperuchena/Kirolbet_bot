@@ -6,12 +6,12 @@ colorama==0.4.3
 isort==5.5.1
 lazy-object-proxy==1.4.3
 mccabe==0.6.1
-mysql-connector-python==8.0.21
+mysql-connector-python
 pipdeptree==1.0.0
 pylint==2.6.0
 PyMySQL==0.10.0
 six==1.15.0
 soupsieve==2.0.1
 toml==0.10.1
-mysql-connector-python
+
 wrapt==1.12.1
