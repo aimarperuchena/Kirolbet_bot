@@ -39,7 +39,7 @@ pycodestyle==2.5.0
 pycparser==2.19
 PyGetWindow==0.0.7
 PyMsgBox==1.0.7
-PyMySQL
+PyMySQL==0.9.3
 
 pyodbc==4.0.22   
 
