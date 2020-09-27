@@ -37,7 +37,9 @@ pycparser==2.19
 PyGetWindow==0.0.7
 PyMsgBox==1.0.7
 
-pyodbc==4.0.22   
+pyodbc==4.0.22
+mysql-connector   
+python-mysqldb
 mysql-connector-python
 mysql-connector-python-rf
 pyparsing==2.4.2
