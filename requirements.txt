@@ -38,7 +38,8 @@ PyGetWindow==0.0.7
 PyMsgBox==1.0.7
 
 pyodbc==4.0.22   
-https://cdn.mysql.com/Downloads/Connector-Python/mysql-connector-python-2.1.15.tar.gz
+mysql-connector-python
+mysql-connector-python-rf
 pyparsing==2.4.2
 pyperclip==1.7.0
 PyRect==0.1.4
