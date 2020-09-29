@@ -34,6 +34,7 @@ try:
   league_id = ''
   '''DATE'''
   span_date = soup2.find("span", {"class": "hora dateFecha"})
+  print(span_date)
   date_time = span_date['title']
   date_time = date_time.split(" ")
   date = date_time[0]

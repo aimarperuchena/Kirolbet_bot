@@ -76,6 +76,7 @@ sport = ''
 league = ''
 league_id = ''
 '''DATE'''
+print(soup2)
 span_date = soup2.find("span", {"class": "hora dateFecha"})
 print(span_date)
 date_time = span_date['title']
