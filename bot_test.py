@@ -46,7 +46,8 @@ print(game)
 time.sleep(100000)
 driver.close() """
 
-
+import time
+from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
