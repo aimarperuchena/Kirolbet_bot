@@ -60,7 +60,7 @@ driver.get("https://euskadi.kirolbet.es/esp/Sport/Evento/2222407")
 elem = driver.find_element_by_xpath("//*")
 html = elem.get_attribute("outerHTML")
 
-
+time.sleep(2)
 
     
 
