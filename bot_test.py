@@ -1,4 +1,4 @@
-from selenium import webdriver
+""" from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 from bs4 import BeautifulSoup
@@ -10,8 +10,8 @@ chrome_options.add_argument("--headless")
 driver = webdriver.Chrome(executable_path='chromedriver_linux',   chrome_options=chrome_options)  
 
 
-"""driver = webdriver.Chrome('chromedriver.exe')
-driver.maximize_window() """
+driver = webdriver.Chrome('chromedriver.exe')
+driver.maximize_window() 
 driver.get("https://euskadi.kirolbet.es/esp/Sport/Evento/2222407")
 elem = driver.find_element_by_xpath("//*")
 html = elem.get_attribute("outerHTML")
@@ -44,4 +44,18 @@ game = game_title.text
 print(game)
 
 time.sleep(100000)
-driver.close()
+driver.close() """
+
+
+from selenium import webdriver
+from bs4 import BeautifulSoup
+url = 'https://www.google.de'
+options = webdriver.FirefoxOptions()
+options.add_argument('--ignore-certificate-errors')
+options.add_argument('--incognito')
+options.add_argument('--headless')
+driver = webdriver.Firefox(options=options)
+driver.implicitly_wait(60)
+driver.get(url)
+soup = BeautifulSoup(driver.page_source, 'lxml')
+driver.quit()
