@@ -7,7 +7,7 @@ from selenium.webdriver.chrome.options import Options
 chrome_options = Options()  
 chrome_options.add_argument("--headless") 
 
-driver = webdriver.Chrome(executable_path='/usr/bin/chromedriver',   chrome_options=chrome_options)  
+driver = webdriver.Chrome(executable_path='chromedriver_linux',   chrome_options=chrome_options)  
 
 
 """driver = webdriver.Chrome('chromedriver.exe')
