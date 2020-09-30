@@ -132,7 +132,7 @@ def selectGame(sport_id, league_id, game, date, times):
         with connection.cursor() as cursor:
 
             # Read a single record
-            sql = "SELECT `id`, `date`, `time` FROM `game` WHERE `sport_id`=%s AND `league_id`=%s AND `game`=%s"
+            sql = "SELECT `id`, `date`, `time` FROM `game` WHERE `sport_id`=%s AND `league_id`=%s AND `game`=%s order by date desc limit 1"
             cursor.execute(sql, (sport_id, league_id, game))
             result = cursor.fetchone()
             if result == None:
