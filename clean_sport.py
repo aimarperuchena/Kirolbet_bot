@@ -160,7 +160,7 @@ def main(sport_id):
     deleteLeagues(sport_id) 
     deleteMarkets(sport_id) 
     deleteTeam(sport_id) 
-    deleteSport(sport_id)    
+       
 
 
 main(3)
