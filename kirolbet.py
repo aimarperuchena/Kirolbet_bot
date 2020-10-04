@@ -7,7 +7,7 @@ from urllib.request import Request, urlopen
 import datetime
 from datetime import date
 
-dbServerName = "35.242.242.84"
+dbServerName = "188.166.163.174"
 dbUser = "remote"
 dbPassword = "aimar"
 dbName = "Kirolbet_db"
