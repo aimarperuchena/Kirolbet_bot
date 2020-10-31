@@ -150,6 +150,5 @@ def main():
             team_id=selectTeam(team,sport_id)
             selectGameTeam(game_id,team_id, league_id)
             '''SELECT GAMES WHERE THE TEAM NAME EXIST'''
-        print(game_split)
         updateGame(game_id)
 main()
