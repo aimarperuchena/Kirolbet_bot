@@ -378,37 +378,39 @@ def insertLeague(sport_id, des):
 
 
 def extractMatchList(link):
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}
-    reg_url = link
-    req = Request(url=reg_url, headers=headers)
-    html = urlopen(req).read()
-    soup2 = BeautifulSoup(html,  "html.parser")
-    games = soup2.findAll("li", {"class": "filtroCategoria"})
-    for game in games:
-        game_info = game.find("div", {"class": "infoEve"})
-        info = game_info.find("div", {"class": "info"})
+    try:
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}
+        reg_url = link
+        req = Request(url=reg_url, headers=headers)
+        html = urlopen(req).read()
+        soup2 = BeautifulSoup(html,  "html.parser")
+        games = soup2.findAll("li", {"class": "filtroCategoria"})
+        for game in games:
+            game_info = game.find("div", {"class": "infoEve"})
+            info = game_info.find("div", {"class": "info"})
 
-        '''GAME LEAGUE'''
+            '''GAME LEAGUE'''
 
-        overStar = info.find("span", {"class": "overStar"})
-        span_campeonato = overStar.find("span", {"class": "campeonato"})
-        league = span_campeonato.text
+            overStar = info.find("span", {"class": "overStar"})
+            span_campeonato = overStar.find("span", {"class": "campeonato"})
+            league = span_campeonato.text
 
-        '''GAME LINK AND TITLE'''
-        span_game = info.find("span", {"class": "partido"})
-        a_array = span_game.findAll("a")
-        if(len(a_array) == 1):
-            game_a = a_array[0]
-        else:
-            game_a = a_array[1]
+            '''GAME LINK AND TITLE'''
+            span_game = info.find("span", {"class": "partido"})
+            a_array = span_game.findAll("a")
+            if(len(a_array) == 1):
+                game_a = a_array[0]
+            else:
+                game_a = a_array[1]
 
-        '''GAME LINK'''
-        game_link = game_a['href']
-        link = 'https://euskadi.kirolbet.es'+game_link
-        extractMarkets(link)
-        time.sleep(0.1)
-
+            '''GAME LINK'''
+            game_link = game_a['href']
+            link = 'https://euskadi.kirolbet.es'+game_link
+            extractMarkets(link)
+            time.sleep(0.1)
+    except Exception as e:
+        print(e)
 
 def extractMarkets(link):
     try:
@@ -483,12 +485,16 @@ def extractMarkets(link):
         print(e)
 
 def extractLeagues():
-    min=sys.argv[1]
-    max=sys.argv[2]
-    for i in range(int(min), int(max)):
-        print(i)
-        link = 'https://euskadi.kirolbet.es/esp/Sport/Competicion/'+str(i)
-        extractMatchList(link)
+    try:
+        min=sys.argv[1]
+        max=sys.argv[2]
+        for i in range(int(min), int(max)):
+            print(i)
+            link = 'https://euskadi.kirolbet.es/esp/Sport/Competicion/'+str(i)
+            extractMatchList(link)
+    except Exception as e:
+        print(e)
+    
         
         
 
