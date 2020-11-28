@@ -498,11 +498,12 @@ def selectLeaguesLink():
         with connection.cursor() as cursor:
             # Read a single record
             sql = "SELECT `id`,`des` FROM `league_link` WHERE `state`=1"
-            cursor.execute(sql, (min, max))
+            cursor.execute(sql)
             res = cursor.fetchall()
             
     except Exception as e:
         print(e)
+        print('SELECT LINKS')
     finally:
         return res  
 
