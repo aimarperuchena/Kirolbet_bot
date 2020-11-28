@@ -11,8 +11,7 @@ dbUser = "remote"
 dbPassword = "kirolBet20a"
 dbName = "Kirolbet_db"
 
-connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
-                             db=dbName)
+connection = 1                           
 
 def insertError(type, des):
     try:
@@ -505,11 +504,14 @@ def selectLeaguesLink(min, max):
 a = 1
 while a == 1:
     print('NEW SCANN')
+    connection=pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+                             db=dbName)
     min=sys.argv[1]
     max=sys.argv[2]
     leagues=selectLeaguesLink(int(min),int(max))
     for league in leagues:
         extractMatchList(league[1])
+    connection.close()
     time.sleep(300)
 
 
