@@ -475,6 +475,7 @@ def extractMarkets(link):
                 selectOdd(game_bet_id, des, odd)
 
         print(league+' -- '+game)
+        time.sleep(0.5)
     except Exception as e:
         print(e)
 
