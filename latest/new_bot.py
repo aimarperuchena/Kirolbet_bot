@@ -1,9 +1,7 @@
-import urllib.request
 import pymysql
-import urlopen
 import time
 from bs4 import BeautifulSoup
-from urllib.request import Request, urlopen
+import requests
 import datetime
 from datetime import date
 import pymysql.cursors
@@ -376,10 +374,9 @@ def extractMatchList(link):
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}
         reg_url = link
-        req = Request(url=reg_url, headers=headers)
-        html = urlopen(req).read()
-        soup2 = BeautifulSoup(html,  "html.parser")
-        games = soup2.findAll("li", {"class": "filtroCategoria"})
+        req = requests.get(reg_url)
+        soup = BeautifulSoup(req.text, 'html.parser')
+        games = soup.findAll("li", {"class": "filtroCategoria"})
         for game in games:
             game_info = game.find("div", {"class": "infoEve"})
             info = game_info.find("div", {"class": "info"})
@@ -402,7 +399,6 @@ def extractMatchList(link):
             game_link = game_a['href']
             link = 'https://euskadi.kirolbet.es'+game_link
             extractMarkets(link)
-            time.sleep(1)
     except Exception as e:
         print(e)
 
@@ -411,9 +407,8 @@ def extractMarkets(link):
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3'}
         reg_url = link
-        req = Request(url=reg_url, headers=headers)
-        html = urlopen(req).read()
-        soup2 = BeautifulSoup(html, "html.parser")
+        page = requests.get(reg_url)
+        soup2 = BeautifulSoup(page.text, 'html.parser')
 
         date_time = ''
         date = ''
@@ -475,7 +470,6 @@ def extractMarkets(link):
                 selectOdd(game_bet_id, des, odd)
 
         print(league+' -- '+game)
-        time.sleep(0.5)
     except Exception as e:
         print(e)
 
@@ -518,12 +512,6 @@ while a == 1:
         extractMatchList(league[1])
     time.sleep(300)
 
-""" a = 1
-while a == 1:
-    print('new scann')
-    try:
-        
-    except Exception as e:
-        print(e)
-    
-    time.sleep(300) """
+
+
+
