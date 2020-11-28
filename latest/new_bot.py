@@ -402,7 +402,7 @@ def extractMatchList(link):
             game_link = game_a['href']
             link = 'https://euskadi.kirolbet.es'+game_link
             extractMarkets(link)
-            time.sleep(0.1)
+            time.sleep(1)
     except Exception as e:
         print(e)
 
