@@ -15,6 +15,8 @@ connection = 1
 
 def insertError(type, des):
     try:
+        connection=pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+                             db=dbName)
         with connection.cursor() as cursor:
             # Create a new record
             sql = "INSERT INTO `error` (`type`, `des`) VALUES (%s, %s)"
@@ -23,9 +25,10 @@ def insertError(type, des):
             # connection is not autocommit by default. So you must commit to save
             # your changes.
             connection.commit()
-            
+        connection.close()   
     except Exception as e:
         print('INSERT ERROR')
+    
         
     
 
@@ -34,7 +37,8 @@ def diff_dates(date1, date2):
     return abs(date2-date1).days
 
 def insertMarket(market, sport):
-
+    connection=pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+                             db=dbName)
     row_id = ''
     try:
         with connection.cursor() as cursor:
@@ -46,6 +50,7 @@ def insertMarket(market, sport):
             # your changes.
             connection.commit()
             row_id = cursor.lastrowid
+        connection.close()
     except Exception as e:
         print('INSERT MARKET')
         print(e)
@@ -57,7 +62,8 @@ def insertMarket(market, sport):
 
 def selectMarket(market, sport_id):
     market_id = ''
-
+    connection=pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+                             db=dbName)
     try:
         with connection.cursor() as cursor:
             # Read a single record
@@ -69,6 +75,7 @@ def selectMarket(market, sport_id):
                 market_id = insertMarket(market, sport_id)
             else:
                 market_id = result[0]
+        connection.close()
     except Exception as e:
         print('SELECT MARKET')
         print(e)
@@ -82,7 +89,8 @@ def selectMarket(market, sport_id):
 def insertGame(sport_id, league_id, game, date, times):
 
     row_id = ''
-
+    connection=pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+                             db=dbName)
     try:
         with connection.cursor() as cursor:
             # Create a new record
@@ -93,7 +101,7 @@ def insertGame(sport_id, league_id, game, date, times):
             # your changes.
             connection.commit()
             row_id = cursor.lastrowid
-
+        connection.close()
     except Exception as e:
         print('INSERT GAME')
         print(e)
@@ -107,13 +115,15 @@ def insertGame(sport_id, league_id, game, date, times):
 
 def updateGame(date, times, game_id):
     try:
-
+        connection=pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+                             db=dbName)
         with connection.cursor() as cursor:
 
             # Read a single record
             sql = "UPDATE game set date = %s, time=%s where id=%s"
             cursor.execute(sql, (date, times, game_id))
             result = cursor.fetchone()
+        connection.close()
     except Exception as e: 
         print('UPDATE GAME')
         print(e)   
@@ -123,7 +133,8 @@ def updateGame(date, times, game_id):
 
         return result
 def selectGame(sport_id, league_id, game, date, times):
-
+    connection=pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+                             db=dbName)
     game_id = ''
     try:
 
@@ -162,7 +173,7 @@ def selectGame(sport_id, league_id, game, date, times):
                         updateGame(date,times,game_id)
                 else:
                     game_id = insertGame(sport_id, league_id, game, date, times)   
-                
+        connection.close()        
     except Exception as e: 
         print('SELECT GAME')
         print(e)  
@@ -177,7 +188,8 @@ def selectGame(sport_id, league_id, game, date, times):
 def insertGameBet(game_id, market_id):
 
     row_id = ''
-
+    connection=pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+                             db=dbName)
     try:
         with connection.cursor() as cursor:
             # Create a new record
@@ -188,6 +200,7 @@ def insertGameBet(game_id, market_id):
             # your changes.
             connection.commit()
             row_id = cursor.lastrowid
+        connection.close()
     except Exception as e:
         print('INSERT GAME BET')
         print(e)
@@ -199,7 +212,8 @@ def insertGameBet(game_id, market_id):
 
 
 def selectGameBet(game_id, market_id):
-
+    connection=pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+                             db=dbName)
     game_bet_id = ''
     try:
 
@@ -214,6 +228,7 @@ def selectGameBet(game_id, market_id):
                 game_bet_id = insertGameBet(game_id, market_id)
             else:
                 game_bet_id = result[0]
+        connection.close()
     except Exception as e:
         print('SELECT GAMEBET')
         print(e)
@@ -226,7 +241,8 @@ def selectGameBet(game_id, market_id):
 
 def insertOdd(game_bet_id, des, odd):
     row_id = ''
-
+    connection=pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+                             db=dbName)
     try:
         with connection.cursor() as cursor:
             # Create a new record
@@ -236,6 +252,7 @@ def insertOdd(game_bet_id, des, odd):
             # connection is not autocommit by default. So you must commit to save
             # your changes.
             connection.commit()
+        connection.close()
     except Exception as e:
         print('INSERT ODD')
         print(e)
@@ -250,7 +267,8 @@ def insertOdd(game_bet_id, des, odd):
 def selectOdd(game_bet_id, des, odd):
 
     try:
-
+        connection=pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+                             db=dbName)
         with connection.cursor() as cursor:
 
             # Read a single record
@@ -263,6 +281,7 @@ def selectOdd(game_bet_id, des, odd):
             else:
                 if float(result[1]) != float(odd):
                     insertOdd(game_bet_id, des, odd)
+        connection.close()
     except Exception as e:
         print('SELECT ODD')
         print(e)
@@ -275,7 +294,8 @@ def selectOdd(game_bet_id, des, odd):
 def selectSport(des):
     row_id = 0
     try:
-
+        connection=pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+                             db=dbName)
         with connection.cursor() as cursor:
 
             # Read a single record
@@ -287,6 +307,7 @@ def selectSport(des):
 
             else:
                 row_id = result[0]
+        connection.close()
     except Exception as e:
         print('SELECT SPORT')
         print(e)
@@ -298,7 +319,8 @@ def selectSport(des):
 
 def insertSport(des):
     row_id = ''
-
+    connection=pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+                             db=dbName)
     try:
         with connection.cursor() as cursor:
             # Create a new record
@@ -309,6 +331,7 @@ def insertSport(des):
             # your changes.
             connection.commit()
             row_id = cursor.lastrowid
+        connection.close()
     except Exception as e:
         print('INSERT SPORT')
         print(e)
@@ -322,6 +345,8 @@ def insertSport(des):
 
 def selectLeague(sport_id, des):
     row_id = ''
+    connection=pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+                             db=dbName)
     try:
 
         with connection.cursor() as cursor:
@@ -335,6 +360,7 @@ def selectLeague(sport_id, des):
 
             else:
                 row_id = result[0]
+        connection.close()
     except Exception as e:
         print('SELECT LEAGUE')
         print(e)
@@ -345,6 +371,8 @@ def selectLeague(sport_id, des):
 
 
 def insertLeague(sport_id, des):
+    connection=pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+                             db=dbName)
     row_id = ''
 
     try:
@@ -358,6 +386,7 @@ def insertLeague(sport_id, des):
             # your changes.
             connection.commit()
             row_id = cursor.lastrowid
+        connection.close()
     except Exception as e:
         print('INSERT LEAGUE')
         print(e)
@@ -486,6 +515,8 @@ def extractLeagues():
         
 def selectLeaguesLink():
     res=''
+    connection=pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
+                             db=dbName)
     try:
 
         with connection.cursor() as cursor:
@@ -493,7 +524,7 @@ def selectLeaguesLink():
             sql = "SELECT `id`,`des` FROM `league_link` WHERE `state`=1"
             cursor.execute(sql)
             res = cursor.fetchall()
-            
+        connection.close()
     except Exception as e:
         print(e)
         print('SELECT LINKS')
@@ -505,8 +536,7 @@ def selectLeaguesLink():
 a = 1
 while a == 1:
     print('NEW SCANN')
-    connection=pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
-                             db=dbName)
+    
     leagues=selectLeaguesLink()
     for league in leagues:
         extractMatchList(league[1])
