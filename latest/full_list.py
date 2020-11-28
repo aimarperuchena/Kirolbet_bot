@@ -1,4 +1,3 @@
-import urllib.request
 import pymysql
 import urlopen
 import time
