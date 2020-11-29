@@ -7,9 +7,9 @@ from urllib.request import Request, urlopen
 import datetime
 from datetime import date
 import pymysql.cursors
-dbServerName = "188.166.163.174"
+dbServerName = "81.25.126.97"
 dbUser = "remote"
-dbPassword = "aimar"
+dbPassword = "kirolBet20a"
 dbName = "Kirolbet_db"
 
 connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
