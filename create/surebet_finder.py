@@ -19,7 +19,7 @@ def selectGames(sport_id):
     try:
         with connection.cursor() as cursor:
             # Read a single record
-            sql = "select game.id as game_id, league.id as league_id, sport.id as sport_id, game.game as game_des from game, sport, league where sport.id=game.sport_id and league.id=game.league_id and game.sport_id=%s; "
+            sql = "select game.id as game_id, league.id as league_id, sport.id as sport_id, game.game as game_des from game, sport, league where sport.id=game.sport_id and league.id=game.league_id and game.sport_id=%s and game.date>=now(); "
             cursor.execute(sql, (sport_id))
             result=cursor.fetchall()
     except Exception as e:
