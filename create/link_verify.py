@@ -50,7 +50,21 @@ def insertLeague(link, state):
         
 
 
-    
+def updateLeague(link, state):
+    try:
+        with connection.cursor() as cursor:
+            # Create a new record
+            sql = "update `league_link` set `state`=%s where `des`=%s"
+            cursor.execute(sql, (str(state), link))
+
+            # connection is not autocommit by default. So you must commit to save
+            # your changes.
+            connection.commit()
+            row_id = cursor.lastrowid
+
+    except Exception as e:
+        print(e)
+
 
 def selectLeague(link):
     res=''
@@ -65,9 +79,9 @@ def selectLeague(link):
         print(e)
     finally:
         return res
-cont=1
+
 for x in range(1, 6300):
-    link = 'https://euskadi.kirolbet.es/esp/Sport/Competicion/'+str(x)
+    link = 'https://apuestas.kirolbet.es/esp/Sport/Competicion/'+str(x)
     val=extractMatchList(link,x)
     state='a'
     if(val>0):
@@ -75,4 +89,4 @@ for x in range(1, 6300):
     else:
         state=0
     """ select_result=selectLeague(link) """
-    insertLeague(link, state)
+    updateLeague(link, state)

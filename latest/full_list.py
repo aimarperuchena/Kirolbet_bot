@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import requests
 import datetime
 from datetime import date
-import pymysql.cursors
+
 import sys
 dbServerName = "81.25.126.97"
 dbUser = "remote"
@@ -541,7 +541,7 @@ while a == 1:
     for league in leagues:
         extractMatchList(league[1])
     connection.close()
-    time.sleep(15000)
+    time.sleep(900)
 
 
 
