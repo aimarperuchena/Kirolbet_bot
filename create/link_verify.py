@@ -79,14 +79,15 @@ def selectLeague(link):
         print(e)
     finally:
         return res
-
-for x in range(1, 6300):
-    link = 'https://apuestas.kirolbet.es/esp/Sport/Competicion/'+str(x)
-    val=extractMatchList(link,x)
-    state='a'
-    if(val>0):
-        state=1
-    else:
-        state=0
-    """ select_result=selectLeague(link) """
-    updateLeague(link, state)
+while True:
+    for x in range(1, 6300):
+        link = 'https://apuestas.kirolbet.es/esp/Sport/Competicion/'+str(x)
+        val=extractMatchList(link,x)
+        state='a'
+        if(val>0):
+            state=1
+        else:
+            state=0
+        """ select_result=selectLeague(link) """
+        updateLeague(link, state)
+    time.sleep(43200)
