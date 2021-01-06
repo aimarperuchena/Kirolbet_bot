@@ -1,1 +1,2 @@
 PARAR TASK DE PYTHON: pkill -f name-of-the-python-script
+ARRANCAR PM2: pm2 start x --interpreter python3 --name x

@@ -541,6 +541,7 @@ while a == 1:
     for league in leagues:
         extractMatchList(league[1])
     connection.close()
+    print('SLEEP')
     time.sleep(900)
 
 

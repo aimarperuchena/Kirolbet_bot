@@ -83,6 +83,7 @@ def selectLeague(link):
 
 a = 1
 while a == 1:
+    print('NEW SCAN')
     for x in range(1, 6300):
         link = 'https://apuestas.kirolbet.es/esp/Sport/Competicion/'+str(x)
         val=extractMatchList(link,x)
@@ -93,4 +94,5 @@ while a == 1:
             state=0
         """ select_result=selectLeague(link) """
         updateLeague(link, state)
+    print('SLEEP')
     time.sleep(43200)

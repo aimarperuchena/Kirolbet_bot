@@ -220,4 +220,5 @@ a = 1
 while a == 1:
     print('NEW SCANN')
     main()
+    print('SLEEP')
     time.sleep(43200)
