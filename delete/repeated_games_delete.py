@@ -222,4 +222,8 @@ def main():
             deleteGameTeam(game_id)
             deleteGame(game_id)
 
-main()
+a = 1
+while a == 1:
+    print('NEW SCAN')
+    main()
+    time.sleep(86400)
