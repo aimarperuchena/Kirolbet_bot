@@ -151,4 +151,8 @@ def main():
             selectGameTeam(game_id,team_id, league_id)
             '''SELECT GAMES WHERE THE TEAM NAME EXIST'''
         updateGame(game_id)
-main()
+a = 1
+while a == 1:
+    print('NEW SCAN')
+    main()
+    time.sleep(43200)
