@@ -216,5 +216,8 @@ def main():
 
 
         
-
-main()
+a = 1
+while a == 1:
+    print('NEW SCANN')
+    main()
+    time.sleep(43200)
