@@ -6,7 +6,7 @@ import datetime
 from datetime import date
 
 import sys
-dbServerName = "81.25.126.97"
+dbServerName = "localhost"
 dbUser = "remote"
 dbPassword = "kirolBet20a"
 dbName = "Kirolbet_db"
