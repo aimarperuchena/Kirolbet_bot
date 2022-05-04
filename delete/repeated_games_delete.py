@@ -8,9 +8,9 @@ import datetime
 from datetime import date
 import pymysql.cursors
 dbServerName = "localhost"
-dbUser = "remote"
-dbPassword = "kirolBet20a"
-dbName = "Kirolbet_db"
+dbUser = "user"
+dbPassword = "password"
+dbName = "database"
 
 connection = pymysql.connect(host=dbServerName, user=dbUser, password=dbPassword,
                              db=dbName)

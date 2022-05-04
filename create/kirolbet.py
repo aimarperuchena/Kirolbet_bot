@@ -8,9 +8,9 @@ import datetime
 from datetime import date
 
 dbServerName = "localhost"
-dbUser = "remote"
-dbPassword = "kirolBet20a"
-dbName = "Kirolbet_db"
+dbUser = "user"
+dbPassword = "password"
+dbName = "database"
 
 
 mydb = mysql.connector.connect(

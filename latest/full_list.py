@@ -7,9 +7,9 @@ from datetime import date
 
 import sys
 dbServerName = "localhost"
-dbUser = "remote"
-dbPassword = "kirolBet20a"
-dbName = "Kirolbet_db"
+dbUser = "user"
+dbPassword = "password"
+dbName = "database"
 
 connection = 1
 
